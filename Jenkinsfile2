@@ -4,18 +4,25 @@ node{
   }
   
   stage("Build docker image"){
-    sh 'docker build -t anhdo98/my-docker-app:1002v1 .'
+    sh 'docker build -t anhdo98/my-docker-app:1002v2 .'
   }
   
   stage("Push docker image"){
     withCredentials([string(credentialsId: 'docker-pwd', variable: 'dockerHubPwd')]) {
       sh "docker login -u anhdo98 -p ${dockerHubPwd}"
     }
-    sh 'docker push anhdo98/my-docker-app:1002v1'
+    sh 'docker push anhdo98/my-docker-app:1002v2'
+  }
+  
+  stage("Remove the old container"){
+    def dockerRm = 'docker container rm -f my-node-app'
+    sshagent(['dev-server']) {
+      sh "ssh -o StrictHostKeyChecking=no ec2-user@43.201.55.33 ${dockerRm}"
+    }
   }
   
   stage("Deploy docker image to Tomcat server"){
-    def dockerRun = 'docker run -d -p 8089:5000 --name my-node-app anhdo98/my-docker-app:1002v1'
+    def dockerRun = 'docker run -d -p 8089:5000 --name my-node-app anhdo98/my-docker-app:1002v2'
     sshagent(['dev-server']) {
       sh "ssh -o StrictHostKeyChecking=no ec2-user@43.201.55.33 ${dockerRun}"
     }
