@@ -18,6 +18,14 @@ pipeline{
         sh 'docker push anhdo98/my-docker-app:${DOCKER_IMAGE_TAG}'
       }
     }
+    
+    stage("Deploy docker image to k8s"){
+      steps{
+        sshagent(['dev-server']) {
+          sh "ssh -o StrictHostKeyChecking=no ec2-user@43.201.55.33 ${dockerRun}"
+        }
+      }
+    }
   }
 }
 
