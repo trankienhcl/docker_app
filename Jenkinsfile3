@@ -21,8 +21,17 @@ pipeline{
     
     stage("Deploy docker image to k8s"){
       steps{
-        sshagent(['dev-server']) {
-          sh "ssh -o StrictHostKeyChecking=no ec2-user@43.201.55.33 ${dockerRun}"
+        sh "chmod +x changeTag.sh"
+        sh "./changeTag.sh ${DOCKER_IMAGE_TAG}"
+        sshagent(['k8s-env']) {
+          sh "scp -o StrictHostKeyChecking=no services.yml node-app-pod.yml ubuntu@15.165.48.107:/home/ubuntu"
+          script{
+            try{
+              sh "ssh ubuntu@15.165.48.107 kubectl apply -f ."
+            }catch(error){
+              sh "ssh ubuntu@15.165.48.107 kubectl create -f ."
+            }
+          }
         }
       }
     }
