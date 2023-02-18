@@ -6,7 +6,7 @@ pipeline{
   stages{
     stage("Build dockerfile"){
       steps{
-        sh "docker build -t anhdo98/my-docker-app:${DOCKER_IMAGE_TAG} ."
+        sh "docker build . -t anhdo98/my-docker-app:${DOCKER_IMAGE_TAG}"
       }
     }
     
