@@ -9,4 +9,4 @@ spec:
     - name: nodeapp
       image: anhdo98/my-docker-app:tagVersion
       ports:
-        - containerPort: 5000
+        - containerPort: 8080
