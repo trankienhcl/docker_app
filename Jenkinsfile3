@@ -4,12 +4,6 @@ pipeline{
     DOCKER_IMAGE_TAG = getNewTag()
   }
   stages{
-    stage("SCM checkout"){
-      steps{
-        git credentialsId: 'git_creds', url: 'https://github.com/anhdotdo/docker_app.git'
-      }
-    }
-    
     stage("Build dockerfile"){
       steps{
         sh "docker build -t anhdo98/my-docker-app:${DOCKER_IMAGE_TAG} ."
