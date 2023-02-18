@@ -1,0 +1,33 @@
+pipeline{
+  agent any
+  environment{
+    DOCKER_IMAGE_TAG = getNewTag()
+  }
+  stages{
+    stage("SCM checkout"){
+      steps{
+        git credentialsId: 'git_creds', url: 'https://github.com/anhdotdo/docker_app.git'
+      }
+    }
+    
+    stage("Build dockerfile"){
+      steps{
+        sh "docker build -t anhdo98/my-docker-app:${DOCKER_IMAGE_TAG} ."
+      }
+    }
+    
+    stage("Push docker image to dockerhub"){
+      steps{
+        withCredentials([string(credentialsId: 'docker-pwd', variable: 'dockerHubPwd')]) {
+          sh "docker login -u anhdo98 -p ${dockerHubPwd}"
+        }
+        sh 'docker push anhdo98/my-docker-app:${DOCKER_IMAGE_TAG}'
+      }
+    }
+  }
+}
+
+def getNewTag(){
+    def tag  = sh script: 'git rev-parse HEAD', returnStdout: true
+    return tag
+}
