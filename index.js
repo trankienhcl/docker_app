@@ -7,7 +7,7 @@ app.get("/", (req, res) => {
 }); 
 
 app.get("/me", (req, res) => { 
-  res.send("Hi I am anh.do@hcl.com"); 
+  res.send("Hi I am anh do"); 
 }); 
 
 app.listen(5000, () => { 
