@@ -24,12 +24,12 @@ pipeline{
         sh "chmod +x changeTag.sh"
         sh "./changeTag.sh ${DOCKER_IMAGE_TAG}"
         sshagent(['k8s-env']) {
-          sh "scp -o StrictHostKeyChecking=no services.yml node-app-pod.yml ubuntu@3.37.38.159:/home/ubuntu"
+          sh "scp -o StrictHostKeyChecking=no services.yml node-app-pod.yml ubuntu@3.35.165.92:/home/ubuntu"
           script{
             try{
-              sh "ssh ubuntu@3.37.38.159 kubectl apply -f ."
+              sh "ssh ubuntu@3.35.165.92 kubectl apply -f ."
             }catch(error){
-              sh "ssh ubuntu@3.37.38.159 kubectl create -f ."
+              sh "ssh ubuntu@3.35.165.92 kubectl create -f ."
             }
           }
         }
