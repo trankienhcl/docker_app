@@ -7,6 +7,6 @@ metadata:
 spec:
   containers:
     - name: nodeapp
-      image: trankienhcl/my-docker-app:tagVersion
+      image: kayeofhallownest/hello-app:tagVersion
       ports:
         - containerPort: 5000
