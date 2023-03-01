@@ -7,6 +7,6 @@ metadata:
 spec:
   containers:
     - name: nodeapp
-      image: kayeofhallownest/hello-app:tagVersion
+      image: kayeofhallownest/nodeapp:tagVersion
       ports:
         - containerPort: 5000
