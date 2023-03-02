@@ -12,6 +12,6 @@ app.get("/me", (req, res) => {
   res.send("kaye of hallownest");
 }); 
 
-app.listen(5000, () => { 
+app.listen(500, () => { 
   console.log("listening"); 
 }); 
