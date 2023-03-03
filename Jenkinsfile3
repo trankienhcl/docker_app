@@ -6,14 +6,14 @@ pipeline{
   stages{
     stage("Build dockerfile"){
       steps{
-        sh "docker build . -t kayeofhallownest/nodeapp1:${DOCKER_IMAGE_TAG}"
+        sh "docker build . -t kayeofhallownest/nodeapp:${DOCKER_IMAGE_TAG}"
       }
     }
     
     stage("Push docker image to dockerhub"){
       steps{
         sh "docker login -u kayeofhallownest -p pankaye1999"
-        sh 'docker push kayeofhallownest/nodeapp1:${DOCKER_IMAGE_TAG}'
+        sh 'docker push kayeofhallownest/nodeapp:${DOCKER_IMAGE_TAG}'
       }
     }
     
