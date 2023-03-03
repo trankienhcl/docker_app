@@ -1,30 +1,30 @@
 node{
   stage("Scm checkout"){
-    git credentialsId: 'git_creds', url: 'https://github.com/anhdotdo/docker_app.git'
+    git credentialsId: 'git_creds', url: 'https://github.com/trankienhcl/docker_app.git'
   }
   
   stage("Build docker image"){
-    sh 'docker build -t anhdo98/my-docker-app:1002v2 .'
+    sh 'docker build -t kayeofhallownest/nodeapp:latest .'
   }
   
   stage("Push docker image"){
     withCredentials([string(credentialsId: 'docker-pwd', variable: 'dockerHubPwd')]) {
-      sh "docker login -u anhdo98 -p ${dockerHubPwd}"
+      sh "docker login -u kayeofhallownest -p pankaye1999"
     }
-    sh 'docker push anhdo98/my-docker-app:1002v2'
+    sh 'docker push kayeofhallownest/nodeapp:latest'
   }
   
   stage("Remove the old container"){
     def dockerRm = 'docker container rm -f my-node-app'
     sshagent(['dev-server']) {
-      sh "ssh -o StrictHostKeyChecking=no ec2-user@43.201.55.33 ${dockerRm}"
+      sh "ssh -o StrictHostKeyChecking=no ec2-user@43.201.114.139 ${dockerRm}"
     }
   }
   
   stage("Deploy docker image to Tomcat server"){
-    def dockerRun = 'docker run -d -p 8089:5000 --name my-node-app anhdo98/my-docker-app:1002v2'
+    def dockerRun = 'docker run -d -p 8089:5000 --name my-node-app kayeofhallownest/nodeapp:latest'
     sshagent(['dev-server']) {
-      sh "ssh -o StrictHostKeyChecking=no ec2-user@43.201.55.33 ${dockerRun}"
+      sh "ssh -o StrictHostKeyChecking=no ec2-user@43.201.114.139 ${dockerRun}"
     }
   }
 }
