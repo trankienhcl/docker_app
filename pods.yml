@@ -9,4 +9,4 @@ spec:
     - name: nodeapp
       image: kayeofhallownest/nodeapp:tagVersion
       ports:
-        - containerPort: 30000
+        - containerPort: 5000
